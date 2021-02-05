@@ -101,9 +101,12 @@ Please search for `DrawTargetExt` on <https://docs.rs/embedded-graphics> for usa
 
 ### Text rendering
 
-TODO: Improve this section before release.
+TODO(rfuest): Improve this section before release.
 
-- `TextStyle` -> `MonoTextStyle`
+To style fonts, use the `MonoTextStyle` struct. `TextStyle` still exists, but has been repurposed to provide a more general interface to text styling. This more closely mirrors the way primitives are built and styled.
+
+Support for external font renderers has been added. TODO: Expand
+
 - Added support for external renderers
 - `MonoTextStyleBuilder::new(Font)` -> `MonoTextStyle::new().font(Font)`
 - Added support for underline and strikethrough to the internal text renderer
@@ -329,7 +332,7 @@ The `style` module has been removed. The items in it have been moved:
 - `PrimitiveStyle` and `PrimitiveStyleBuilder` are now available under `embedded_graphics::primitives::{PrimitiveStyle, PrimitiveStyleBuilder}`.
 - `TextStyle` and `TextStyleBuilder` are now available under `embedded_graphics::text::{TextStyle, TextStyleBuilder}`.
 
-  Note that usage with `Text` has changed. Please see [the text changes section](#TODO) for more.
+  Note that usage with `Text` has changed. See [the text changes section](#Text-rendering) for more.
 
 - `PrimitiveStyle` & `PrimitiveStyleBuilder` -> `primitives` module
 - `TextStyle` & `TextStyleBuilder` -> `text` module + see text changes
