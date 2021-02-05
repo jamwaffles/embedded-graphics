@@ -324,10 +324,13 @@ It now also disallows out of bounds drawing by default. This behaviour can be ch
 
 ## Style module
 
-The `style` module has been removed.
+The `style` module has been removed. The items in it have been moved:
 
-TODO: Improve this section before release.
+- `PrimitiveStyle` and `PrimitiveStyleBuilder` are now available under `embedded_graphics::primitives::{PrimitiveStyle, PrimitiveStyleBuilder}`.
+- `TextStyle` and `TextStyleBuilder` are now available under `embedded_graphics::text::{TextStyle, TextStyleBuilder}`.
+
+  Note that usage with `Text` has changed. Please see [the text changes section](#TODO) for more.
 
 - `PrimitiveStyle` & `PrimitiveStyleBuilder` -> `primitives` module
 - `TextStyle` & `TextStyleBuilder` -> `text` module + see text changes
-- `Styled` -> crate root
+- `Styled` is now exported from the crate root, e.g. `use embedded_graphics::Styled`.
