@@ -10,7 +10,7 @@
     - [Geometry](#geometry)
     - [Color](#color)
     - [Sub draw targets](#sub-draw-targets)
-    - [Text rendering](#text-rendering)
+    - [Fonts and text](#fonts-and-text)
   - [For display driver authors](#for-display-driver-authors)
   - [For crates that handle images](#for-crates-that-handle-images)
   - [For text rendering crates](#for-text-rendering-crates)
@@ -26,6 +26,7 @@
   - [Geometry](#geometry-1)
   - [Mock display](#mock-display-1)
   - [Style module](#style-module)
+  - [Text and fonts](#text-and-fonts)
 
 ## New features
 
@@ -99,11 +100,9 @@ The `DrawTargetExt` trait is introduced to allow a translated, cropped or clippe
 
 Please search for `DrawTargetExt` on <https://docs.rs/embedded-graphics> for usage examples.
 
-### Text rendering
+### Fonts and text
 
-TODO(rfuest): Improve this section before release.
-
-To style fonts, use the `MonoTextStyle` struct. `TextStyle` still exists, but has been repurposed to provide a more general interface to text styling. This more closely mirrors the way primitives are built and styled.
+TODO(rfuest): Improve this section before release:
 
 Support for external font renderers has been added. TODO: Expand
 
@@ -112,7 +111,37 @@ Support for external font renderers has been added. TODO: Expand
 - Added support for underline and strikethrough to the internal text renderer
 - Added `TextStyle` to set the horizontal and vertical alignment for `Text` drawables
 - New default vertical alignment is baseline
-- New fonts with `ascii` and `latin1` glyph subsets
+
+The list of fonts has changed to the following:
+
+All fonts are provided in `embedded_graphics::mono_font::[ascii|latin1]::[font name]`
+
+- `Font4x6`
+- `Font5x7`
+- `Font5x8`
+- `Font6x10`
+- `Font6x12`
+- `Font6x13`
+  - Also available in **bold** (`Font6x13Bold`) and _italic_ (`Font6x13Italic`)
+- `Font6x9`
+- `Font7x13`
+  - Also available in **bold** (`Font7x13Bold`) and _italic_ (`Font7x13Italic`)
+- `Font7x14`
+  - Also available in **bold** (`Font7x14`)
+- `Font8x13`
+  - Also available in **bold** (`Font8x13Bold`) and _italic_ (`Font8x13Italic`)
+- `Font9x15`
+  - Also available in **bold** (`Font9x15Bold`)
+- `Font9x18`
+  - Also available in **bold** (`Font9x18Bold`)
+- `Font10x20`
+
+Two character sets are now provided for each font:
+
+- `embedded_graphics::mono_font::ascii` for the ASCII character codes `0x20` to `0x7f`.
+- `embedded_graphics::mono_font::latin1` for the character codes `0x20` to `0x7f`, `0xa0` to `0xff`.
+
+The `ascii` set can be use to reduce memory consumption by the font data, at the cost of losing extra characters.
 
 ## For display driver authors
 
@@ -337,3 +366,16 @@ The `style` module has been removed. The items in it have been moved:
 - `PrimitiveStyle` & `PrimitiveStyleBuilder` -> `primitives` module
 - `TextStyle` & `TextStyleBuilder` -> `text` module + see text changes
 - `Styled` is now exported from the crate root, e.g. `use embedded_graphics::Styled`.
+
+## Text and fonts
+
+The collection of builtin fonts are now sourced from public domain BDF fonts in the XOrg project. Due to this, they have slightly different dimensions and glyphs and so have changed names. Some sizes are not the same in the new set, but a rough mapping is as follows:
+
+- `fonts::Font6x6` -> Removed
+- `fonts::Font6x8` -> `mono_font::[ascii|latin1]::Font5x8`
+- `fonts::Font6x12` -> `mono_font::[ascii|latin1]::Font6x12`
+- `fonts::Font8x16` -> `mono_font::[ascii|latin1]::Font8x13`
+- `fonts::Font12x16` -> `mono_font::[ascii|latin1]::Font9x15`
+- `fonts::Font24x32` -> `mono_font::[ascii|latin1]::Font10x20` (this is the largest font available, however the old `Font24x32` was just a scaling of `Font12x16`)
+
+To style fonts, use the `MonoTextStyle` struct. `TextStyle` still exists, but has been repurposed to provide a more general interface to text styling. This more closely mirrors the way primitives are built and styled.
