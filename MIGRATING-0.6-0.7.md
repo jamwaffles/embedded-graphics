@@ -136,12 +136,12 @@ All fonts are provided in `embedded_graphics::mono_font::[ascii|latin1]::[font n
   - Also available in **bold** (`Font9x18Bold`)
 - `Font10x20`
 
-Two character sets are now provided for each font:
+Two character sets are now provided for each font. The `ascii` set can be use to reduce memory consumption by the font data, at the cost of losing extra characters.
 
-- `embedded_graphics::mono_font::ascii` for the ASCII character codes `0x20` to `0x7f`.
-- `embedded_graphics::mono_font::latin1` for the character codes `0x20` to `0x7f`, `0xa0` to `0xff`.
+- `embedded_graphics::mono_font::ascii` provides the characters U+0020 to U+007F in the [Basic Latin code block](https://en.wikipedia.org/wiki/Basic_Latin_(Unicode_block)), excluding control characters.
+- `embedded_graphics::mono_font::latin1` provides all all characters in the `ascii` variant with the addition of U+00A0 to U+00FF in the [Latin-1 Supplement code block](https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)) (excluding control characters).
 
-The `ascii` set can be use to reduce memory consumption by the font data, at the cost of losing extra characters.
+`ascii` has full coverage of the English language. For other languages, `latin1` has complete coverage for [the languages listed here](https://en.wikipedia.org/wiki/ISO/IEC_8859-1#Modern_languages_with_complete_coverage), and partial coverage for [these languages](https://en.wikipedia.org/wiki/ISO/IEC_8859-1#Languages_with_incomplete_coverage).
 
 ## For display driver authors
 
@@ -379,3 +379,5 @@ The collection of builtin fonts are now sourced from public domain BDF fonts in 
 - `fonts::Font24x32` -> `mono_font::[ascii|latin1]::Font10x20` (this is the largest font available, however the old `Font24x32` was just a scaling of `Font12x16`)
 
 To style fonts, use the `MonoTextStyle` struct. `TextStyle` still exists, but has been repurposed to provide a more general interface to text styling. This more closely mirrors the way primitives are built and styled.
+
+TODO: Discuss baseline font alignment, etc, as per GH comment.
